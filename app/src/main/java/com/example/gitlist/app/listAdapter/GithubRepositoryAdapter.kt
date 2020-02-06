@@ -1,7 +1,9 @@
 package com.example.gitlist.app.listAdapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gitlist.R
 import com.example.gitlist.app.listAdapter.holder.GithubRepositoryItemHolder
@@ -13,7 +15,11 @@ class GithubRepositoryAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GithubRepositoryItemHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_github_repository, parent, false)
-        return GithubRepositoryItemHolder(view)
+        val holder = GithubRepositoryItemHolder(view)
+
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(parent.context, R.anim.item_animation))
+
+        return holder
     }
 
     override fun getItemCount(): Int {
