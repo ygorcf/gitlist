@@ -3,4 +3,6 @@
 
     <string name="github_repository_item_image_description">Imagem usuário</string>
     <string name="github_repository_item_stars_title">Stars: %1$d</string>
+
+    <string name="github_repository_option_filter">Filtrar</string>
 </resources>

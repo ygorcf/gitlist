@@ -67,7 +67,7 @@ interface GithubRepositoryListMVP {
      */
     interface Presenter {
 
-        val view: View
+        var view: View
 
         /**
          * Metodo de callback de quando a activity foi criada.
