@@ -9,9 +9,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class GithubRepositoryListModel : GithubRepositoryListMVP.Model {
+
+    override var filter = ""
+    override var sort = ""
+
     override fun getRepositories(listener: GithubRepositoryListMVP.Model.RepositoryListListener) {
         val service = ServiceFactory.createService(GithubApi::class.java)
-        service.listRepositories("language:swift", "stars").enqueue(object :
+        service.listRepositories(filter, sort).enqueue(object :
             Callback<GithubSearchResponse> {
             override fun onFailure(call: Call<GithubSearchResponse>, t: Throwable) {
                 val e = Exception("deu ruim")

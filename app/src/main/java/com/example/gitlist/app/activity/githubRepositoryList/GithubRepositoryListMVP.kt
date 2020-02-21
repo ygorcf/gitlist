@@ -9,8 +9,14 @@ interface GithubRepositoryListMVP {
 
     /**
      * Interface das classes de manter os dados da activity de listar os repositorios do github.
+     *
+     * @property filter O filtro da busca de repositorios.
+     * @property sort A ordenacao da busca de repositorios.
      */
     interface Model {
+
+        var filter: String
+        var sort: String
 
         /**
          * Interface de ouvinte do metodo de obter a lista de respositorios.
@@ -78,6 +84,20 @@ interface GithubRepositoryListMVP {
          * Metodo de callback de quando for clicado no botao de filtro.
          */
         fun onFilterButtonClicked()
+
+        /**
+         * Metodo de callback de quando e alterado o texto do campo de filtro.
+         *
+         * @param filter O valor do campo de filtro.
+         */
+        fun onFilterTextChange(filter: String)
+
+        /**
+         * Metodo de callback de quando e alterado o texto do campo de ordenacao.
+         *
+         * @param sort O valor do campo de ordenacao.
+         */
+        fun onSortTextChange(sort: String)
 
     }
 

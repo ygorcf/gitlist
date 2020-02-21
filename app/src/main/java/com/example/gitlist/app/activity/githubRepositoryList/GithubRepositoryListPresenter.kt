@@ -8,6 +8,22 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
     override lateinit var view: GithubRepositoryListMVP.View
 
     override fun onActivityCreated() {
+        getRepositories()
+    }
+
+    override fun onFilterButtonClicked() {
+        view.filterVisibility = !view.filterVisibility
+    }
+
+    override fun onFilterTextChange(filter: String) {
+
+    }
+
+    override fun onSortTextChange(sort: String) {
+
+    }
+
+    private fun getRepositories() {
         model.getRepositories(object : GithubRepositoryListMVP.Model.RepositoryListListener {
             override fun onSuccess(repositories: List<GithubRepository>) {
                 view.showRepositories(repositories)
@@ -16,12 +32,7 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
             override fun onError(error: Exception) {
                 view.showRepositories(listOf())
             }
-
         })
-    }
-
-    override fun onFilterButtonClicked() {
-        view.filterVisibility = !view.filterVisibility
     }
 
 }
