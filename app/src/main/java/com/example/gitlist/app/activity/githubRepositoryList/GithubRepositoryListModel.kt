@@ -8,11 +8,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GithubRepositoryListModel : GithubRepositoryListMVP.Model {
+/**
+ * Classe responsavel por manter os dados da tela de listagem de repositorios.
+ *
+ * @property filter O valor atual do filtro de repositorios.
+ * @property sort O valor atual do campo de ordenacao.
+ */
+class GithubRepositoryListModel(defaultFilter: String) : GithubRepositoryListMVP.Model {
 
-    override var filter = ""
-    override var sort = ""
+    override var filter = defaultFilter
+    override var sort: String? = null
 
+    /**
+     * Metodo para obter a lista de repositorios.
+     *
+     * @param listener O ovutinte de quando terminar a busca.
+     */
     override fun getRepositories(listener: GithubRepositoryListMVP.Model.RepositoryListListener) {
         val service = ServiceFactory.createService(GithubApi::class.java)
         service.listRepositories(filter, sort).enqueue(object :
@@ -37,4 +48,5 @@ class GithubRepositoryListModel : GithubRepositoryListMVP.Model {
             }
         })
     }
+
 }

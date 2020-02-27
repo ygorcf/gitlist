@@ -2,6 +2,8 @@ package com.example.gitlist.app.activity.githubRepositoryList
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -56,6 +58,10 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
         github_repository_list?.layoutManager = LinearLayoutManager(this)
     }
 
+    override fun setStartFilter(filter: String) {
+        input_filter?.setText(filter)
+    }
+
     // Metodos do ciclo de vida do android.
 
     /**
@@ -66,6 +72,10 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_github_repository_list)
+
+        input_filter?.addTextChangedListener(createTextWatcher {
+            presenter?.onFilterTextChange(it)
+        })
 
         if (presenter == null) {
             presenter = GithubRepositoryListPresenter()
@@ -100,7 +110,29 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
         return true
     }
 
+    /**
+     * Metodo para obter um ouvinte de mudancas em campos de texto. Com o objetivo de encapsular o
+     * ouvinte base do android.
+     *
+     * @param onChangeListener Um ouvinte simples em formato kotlin de mudancas no campo de texto.
+     */
+    private fun createTextWatcher(onChangeListener: (String) -> Unit): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    onChangeListener.invoke(s.toString())
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+    }
+
     companion object {
+        /**
+         * A instancia da classe responsavel pelas regras de negocio da tela de listagem de
+         * repositorios.
+         */
         private var presenter: GithubRepositoryListMVP.Presenter? = null
     }
 

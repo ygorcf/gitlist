@@ -16,7 +16,7 @@ interface GithubRepositoryListMVP {
     interface Model {
 
         var filter: String
-        var sort: String
+        var sort: String?
 
         /**
          * Interface de ouvinte do metodo de obter a lista de respositorios.
@@ -64,6 +64,12 @@ interface GithubRepositoryListMVP {
          */
         fun showRepositories(repositories: List<GithubRepository>)
 
+        /**
+         * Metodo de comando para definir o valor inicial do campo de filtro.
+         *
+         * @param filter O valor inicial do campo.
+         */
+        fun setStartFilter(filter: String)
     }
 
     /**
