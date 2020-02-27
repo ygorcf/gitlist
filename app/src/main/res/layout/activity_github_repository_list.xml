@@ -26,9 +26,15 @@
                 android:id="@+id/input_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Filtro" />
+                android:hint="@string/github_repository_field_filter_placeholder" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spinner_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 

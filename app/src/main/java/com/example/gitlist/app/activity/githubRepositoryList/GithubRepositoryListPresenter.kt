@@ -51,7 +51,7 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
      *
      * @param sort O novo valor do campo de ordenacao.
      */
-    override fun onSortTextChange(sort: String) {
+    override fun onSortTextChange(sort: String?) {
         model.sort = sort
         getRepositoriesWithDebounce()
     }

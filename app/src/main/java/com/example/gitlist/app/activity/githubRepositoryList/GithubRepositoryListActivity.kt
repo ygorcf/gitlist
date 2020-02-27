@@ -7,6 +7,8 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gitlist.R
@@ -76,6 +78,27 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
         input_filter?.addTextChangedListener(createTextWatcher {
             presenter?.onFilterTextChange(it)
         })
+        ArrayAdapter.createFromResource(this,
+            R.array.github_repository_options_sort,
+            android.R.layout.simple_spinner_item).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner_sort?.adapter = this
+            spinner_sort?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long) {
+                    presenter?.onSortTextChange(when (position) {
+                        0 -> "stars"
+                        1 -> "forks"
+                        2 -> "help-wanted-issues"
+                        else -> null
+                    })
+                }
+
+            }
+        }
 
         if (presenter == null) {
             presenter = GithubRepositoryListPresenter()

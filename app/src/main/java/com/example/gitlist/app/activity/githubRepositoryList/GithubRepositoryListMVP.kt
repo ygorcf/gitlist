@@ -103,7 +103,7 @@ interface GithubRepositoryListMVP {
          *
          * @param sort O valor do campo de ordenacao.
          */
-        fun onSortTextChange(sort: String)
+        fun onSortTextChange(sort: String?)
 
     }
 

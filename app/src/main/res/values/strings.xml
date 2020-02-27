@@ -5,4 +5,11 @@
     <string name="github_repository_item_stars_title">Stars: %1$d</string>
 
     <string name="github_repository_option_filter">Filtrar</string>
+    <string name="github_repository_field_filter_placeholder">Filtro</string>
+    <string-array name="github_repository_options_sort">
+        <item>Estrelas</item>
+        <item>Forks</item>
+        <item>Ajuda com issues</item>
+    </string-array>
+
 </resources>
