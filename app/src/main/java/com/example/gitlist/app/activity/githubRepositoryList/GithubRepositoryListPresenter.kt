@@ -57,6 +57,14 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
     }
 
     /**
+     * Metodo de callback de quando ocorre a acao de refresh no swipe layout. Com o objetivo de
+     * buscar a lista de repositorios.
+     */
+    override fun onSwipeRefresh() {
+        getRepositories()
+    }
+
+    /**
      * Metodo para buscar os repositorios e apresenta-los na tela, com um debounce 0,5s.
      */
     private fun getRepositoriesWithDebounce() {
@@ -74,13 +82,16 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
      * Metodo de buscar os repositorios e apresenta-los na tela.
      */
     private fun getRepositories() {
+        view.loading = true
         model.getRepositories(object : GithubRepositoryListMVP.Model.RepositoryListListener {
             override fun onSuccess(repositories: List<GithubRepository>) {
                 view.showRepositories(repositories)
+                view.loading = false
             }
 
             override fun onError(error: Exception) {
                 view.showRepositories(listOf())
+                view.loading = false
             }
         })
     }

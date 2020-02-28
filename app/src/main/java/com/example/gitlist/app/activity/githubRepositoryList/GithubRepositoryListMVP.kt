@@ -52,10 +52,12 @@ interface GithubRepositoryListMVP {
      * Interface das classes de apresentar os dados na tela da activity de listar repositorios.
      *
      * @property filterVisibility A visibilidade dos campos de filtro.
+     * @property loading Se a tela esta carregando.
      */
     interface View {
 
         var filterVisibility: Boolean
+        var loading: Boolean
 
         /**
          * Metodo de comando para apresentar a lista de repositorios do github.
@@ -104,6 +106,11 @@ interface GithubRepositoryListMVP {
          * @param sort O valor do campo de ordenacao.
          */
         fun onSortTextChange(sort: String?)
+
+        /**
+         * Metodo de callback de quando ocorre a acao de refresh no swipe refresh.
+         */
+        fun onSwipeRefresh()
 
     }
 

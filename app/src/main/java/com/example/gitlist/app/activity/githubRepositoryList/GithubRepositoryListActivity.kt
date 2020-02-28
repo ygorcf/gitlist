@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_github_repository_list.*
  * Classe de apresentar os dados da activity de listar repositorios.
  *
  * @property filterVisibility A visibilidade dos campos de filtro.
+ * @property loading Se a tela esta carregando.
  */
 class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMVP.View {
 
@@ -47,6 +48,12 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
                     }
                 }
             }
+        }
+
+    override var loading: Boolean
+        get() = swipe_layout_github_repository?.isRefreshing == true
+        set(value) {
+            swipe_layout_github_repository?.isRefreshing = value
         }
 
     /**
@@ -98,6 +105,10 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
                 }
 
             }
+        }
+        swipe_layout_github_repository?.setColorSchemeResources(R.color.colorPrimary)
+        swipe_layout_github_repository?.setOnRefreshListener {
+            presenter?.onSwipeRefresh()
         }
 
         if (presenter == null) {
