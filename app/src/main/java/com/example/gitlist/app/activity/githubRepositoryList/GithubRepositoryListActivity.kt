@@ -62,9 +62,9 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
      * @param repositories A lista de repositorios a serem apresentados.
      */
     override fun showRepositories(repositories: List<GithubRepository>) {
-        val adapter = GithubRepositoryAdapter(repositories)
-        github_repository_list?.adapter = adapter
-        github_repository_list?.layoutManager = LinearLayoutManager(this)
+        if (github_repository_list != null) {
+            GithubRepositoryAdapter(repositories).bindToListView(github_repository_list, this)
+        }
     }
 
     override fun setStartFilter(filter: String) {
