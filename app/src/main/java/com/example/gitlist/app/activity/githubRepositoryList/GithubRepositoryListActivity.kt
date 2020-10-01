@@ -10,9 +10,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gitlist.R
 import com.example.gitlist.app.listAdapter.GithubRepositoryAdapter
+import com.example.gitlist.app.listAdapter.listener.EndlessRecyclerViewListener
 import com.example.gitlist.model.GithubRepository
 import kotlinx.android.synthetic.main.activity_github_repository_list.*
 
@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_github_repository_list.*
  * @property loading Se a tela esta carregando.
  */
 class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMVP.View {
+
+    override var endlessRecyclerViewListener: EndlessRecyclerViewListener? = null
 
     override var filterVisibility: Boolean
         get() {
@@ -56,15 +58,15 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
             swipe_layout_github_repository?.isRefreshing = value
         }
 
+    private lateinit var listAdapter: GithubRepositoryAdapter
+
     /**
      * Metodo para apresentar a lista de repositorios.
      *
      * @param repositories A lista de repositorios a serem apresentados.
      */
     override fun showRepositories(repositories: List<GithubRepository>) {
-        if (github_repository_list != null) {
-            GithubRepositoryAdapter(repositories).bindToListView(github_repository_list, this)
-        }
+        this.listAdapter.addRepositories(repositories)
     }
 
     override fun setStartFilter(filter: String) {
@@ -109,6 +111,12 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
         swipe_layout_github_repository?.setColorSchemeResources(R.color.colorPrimary)
         swipe_layout_github_repository?.setOnRefreshListener {
             presenter?.onSwipeRefresh()
+        }
+
+        if (github_repository_list != null) {
+            this.listAdapter = GithubRepositoryAdapter(endlessRecyclerViewListener).also {
+                it.bindToListView(github_repository_list, this)
+            }
         }
 
         if (presenter == null) {

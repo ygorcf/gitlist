@@ -1,5 +1,6 @@
 package com.example.gitlist.app.activity.githubRepositoryList
 
+import com.example.gitlist.app.listAdapter.listener.EndlessRecyclerViewListener
 import com.example.gitlist.model.GithubRepository
 import java.util.*
 
@@ -23,6 +24,7 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
      */
     override fun onActivityCreated() {
         view.setStartFilter(DEFAULT_FILTER)
+        view.endlessRecyclerViewListener = EndlessRecyclerViewListener()
         getRepositories()
     }
 

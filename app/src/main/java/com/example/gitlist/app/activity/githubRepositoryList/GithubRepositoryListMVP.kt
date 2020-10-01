@@ -1,5 +1,6 @@
 package com.example.gitlist.app.activity.githubRepositoryList
 
+import com.example.gitlist.app.listAdapter.listener.EndlessRecyclerViewListener
 import com.example.gitlist.model.GithubRepository
 
 /**
@@ -53,11 +54,14 @@ interface GithubRepositoryListMVP {
      *
      * @property filterVisibility A visibilidade dos campos de filtro.
      * @property loading Se a tela esta carregando.
+     * @property endlessRecyclerViewListener O ouvinte dos eventos do scroll infinito da recycler
+     * view.
      */
     interface View {
 
         var filterVisibility: Boolean
         var loading: Boolean
+        var endlessRecyclerViewListener: EndlessRecyclerViewListener?
 
         /**
          * Metodo de comando para apresentar a lista de repositorios do github.

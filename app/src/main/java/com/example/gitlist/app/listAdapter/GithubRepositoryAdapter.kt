@@ -17,10 +17,10 @@ import com.example.gitlist.model.GithubRepository
  * @property layoutManager O layout manager da recycler view.
  */
 class GithubRepositoryAdapter(
-    private val list: List<GithubRepository>,
     private val listener: EndlessRecyclerViewListener?
 ) : RecyclerView.Adapter<GithubRepositoryItemHolder>() {
 
+    private val list = ArrayList<GithubRepository>()
     private var layoutManager: RecyclerView.LayoutManager? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GithubRepositoryItemHolder {
@@ -51,6 +51,15 @@ class GithubRepositoryAdapter(
         if (listener !== null) {
             recyclerView.addOnScrollListener(listener)
         }
+    }
+
+    /**
+     * Metodo de comando, com o objetivo de adicionar repositorios na lista.
+     * @param repositories - Os repositorioes a serem adicionados.
+     */
+    fun addRepositories (repositories: Collection<GithubRepository>) {
+        this.list.addAll(repositories)
+        this.notifyDataSetChanged()
     }
 
 }
