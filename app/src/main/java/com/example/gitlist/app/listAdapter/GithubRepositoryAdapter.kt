@@ -16,9 +16,7 @@ import com.example.gitlist.model.GithubRepository
  *
  * @property layoutManager O layout manager da recycler view.
  */
-class GithubRepositoryAdapter(
-    private val listener: EndlessRecyclerViewListener?
-) : RecyclerView.Adapter<GithubRepositoryItemHolder>() {
+class GithubRepositoryAdapter : RecyclerView.Adapter<GithubRepositoryItemHolder>() {
 
     private val list = ArrayList<GithubRepository>()
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -44,13 +42,15 @@ class GithubRepositoryAdapter(
         }
     }
 
-    fun bindToListView (recyclerView: RecyclerView, context: Context) {
+    fun bindToListView (recyclerView: RecyclerView, context: Context, infinityScrollListener: (page: Int, recyclerView: RecyclerView) -> Unit) {
         layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = this
         recyclerView.layoutManager = layoutManager
-        if (listener !== null) {
-            recyclerView.addOnScrollListener(listener)
-        }
+        recyclerView.addOnScrollListener(object : EndlessRecyclerViewListener(layoutManager!! as LinearLayoutManager) {
+            override fun onLoadMore(page: Int, recyclerView: RecyclerView) {
+                infinityScrollListener(page, recyclerView)
+            }
+        })
     }
 
     /**

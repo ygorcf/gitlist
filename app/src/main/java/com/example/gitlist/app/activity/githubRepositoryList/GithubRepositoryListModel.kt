@@ -22,11 +22,12 @@ class GithubRepositoryListModel(defaultFilter: String) : GithubRepositoryListMVP
     /**
      * Metodo para obter a lista de repositorios.
      *
+     * @param page A pagina a ser busacada.
      * @param listener O ovutinte de quando terminar a busca.
      */
-    override fun getRepositories(listener: GithubRepositoryListMVP.Model.RepositoryListListener) {
+    override fun getRepositories(page: Int, listener: GithubRepositoryListMVP.Model.RepositoryListListener) {
         val service = ServiceFactory.createService(GithubApi::class.java)
-        service.listRepositories(filter, sort).enqueue(object :
+        service.listRepositories(filter, sort, ITEMS_PER_PAGE, page).enqueue(object :
             Callback<GithubSearchResponse> {
             override fun onFailure(call: Call<GithubSearchResponse>, t: Throwable) {
                 val e = Exception("deu ruim")
@@ -49,4 +50,7 @@ class GithubRepositoryListModel(defaultFilter: String) : GithubRepositoryListMVP
         })
     }
 
+    companion object {
+        private const val ITEMS_PER_PAGE = 10
+    }
 }

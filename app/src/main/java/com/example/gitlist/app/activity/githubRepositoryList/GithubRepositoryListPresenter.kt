@@ -1,6 +1,5 @@
 package com.example.gitlist.app.activity.githubRepositoryList
 
-import com.example.gitlist.app.listAdapter.listener.EndlessRecyclerViewListener
 import com.example.gitlist.model.GithubRepository
 import java.util.*
 
@@ -24,7 +23,6 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
      */
     override fun onActivityCreated() {
         view.setStartFilter(DEFAULT_FILTER)
-        view.endlessRecyclerViewListener = EndlessRecyclerViewListener()
         getRepositories()
     }
 
@@ -66,6 +64,10 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
         getRepositories()
     }
 
+    override fun onLoadMore(currentPage: Int) {
+        getRepositories(currentPage)
+    }
+
     /**
      * Metodo para buscar os repositorios e apresenta-los na tela, com um debounce 0,5s.
      */
@@ -83,9 +85,9 @@ class GithubRepositoryListPresenter : GithubRepositoryListMVP.Presenter {
     /**
      * Metodo de buscar os repositorios e apresenta-los na tela.
      */
-    private fun getRepositories() {
+    private fun getRepositories(page: Int = 0) {
         view.loading = true
-        model.getRepositories(object : GithubRepositoryListMVP.Model.RepositoryListListener {
+        model.getRepositories(page, object : GithubRepositoryListMVP.Model.RepositoryListListener {
             override fun onSuccess(repositories: List<GithubRepository>) {
                 view.showRepositories(repositories)
                 view.loading = false

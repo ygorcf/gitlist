@@ -15,6 +15,6 @@ interface GithubApi {
      * @return A instancia da chamada da requisicao.
      */
     @GET("search/repositories")
-    fun listRepositories(@Query("q") query: String, @Query("sort") sort: String?) : Call<GithubSearchResponse>
+    fun listRepositories(@Query("q") query: String, @Query("sort") sort: String?, @Query("per_page") perPage: Int?, @Query("page") page: Int?) : Call<GithubSearchResponse>
 
 }

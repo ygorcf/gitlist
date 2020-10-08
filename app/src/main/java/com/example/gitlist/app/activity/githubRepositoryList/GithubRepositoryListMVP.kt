@@ -1,6 +1,5 @@
 package com.example.gitlist.app.activity.githubRepositoryList
 
-import com.example.gitlist.app.listAdapter.listener.EndlessRecyclerViewListener
 import com.example.gitlist.model.GithubRepository
 
 /**
@@ -43,9 +42,10 @@ interface GithubRepositoryListMVP {
         /**
          * Metodo de obter a lista de repositorios do servidor.
          *
+         * @param page A pagina a ser buscada.
          * @param listener O ouvinte dabusca de repositorios.
          */
-        fun getRepositories(listener: RepositoryListListener)
+        fun getRepositories(page: Int, listener: RepositoryListListener)
 
     }
 
@@ -54,14 +54,11 @@ interface GithubRepositoryListMVP {
      *
      * @property filterVisibility A visibilidade dos campos de filtro.
      * @property loading Se a tela esta carregando.
-     * @property endlessRecyclerViewListener O ouvinte dos eventos do scroll infinito da recycler
-     * view.
      */
     interface View {
 
         var filterVisibility: Boolean
         var loading: Boolean
-        var endlessRecyclerViewListener: EndlessRecyclerViewListener?
 
         /**
          * Metodo de comando para apresentar a lista de repositorios do github.
@@ -115,6 +112,11 @@ interface GithubRepositoryListMVP {
          * Metodo de callback de quando ocorre a acao de refresh no swipe refresh.
          */
         fun onSwipeRefresh()
+
+        /**
+         * Metodo de callback de quando ocorre o evento de carregar mais itens pelo scroll.
+         */
+        fun onLoadMore(currentPage: Int)
 
     }
 

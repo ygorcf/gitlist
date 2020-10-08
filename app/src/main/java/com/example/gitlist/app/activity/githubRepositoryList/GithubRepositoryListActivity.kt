@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.gitlist.R
 import com.example.gitlist.app.listAdapter.GithubRepositoryAdapter
-import com.example.gitlist.app.listAdapter.listener.EndlessRecyclerViewListener
 import com.example.gitlist.model.GithubRepository
 import kotlinx.android.synthetic.main.activity_github_repository_list.*
 
@@ -23,8 +22,6 @@ import kotlinx.android.synthetic.main.activity_github_repository_list.*
  * @property loading Se a tela esta carregando.
  */
 class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMVP.View {
-
-    override var endlessRecyclerViewListener: EndlessRecyclerViewListener? = null
 
     override var filterVisibility: Boolean
         get() {
@@ -110,12 +107,15 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
         }
         swipe_layout_github_repository?.setColorSchemeResources(R.color.colorPrimary)
         swipe_layout_github_repository?.setOnRefreshListener {
+
             presenter?.onSwipeRefresh()
         }
 
         if (github_repository_list != null) {
-            this.listAdapter = GithubRepositoryAdapter(endlessRecyclerViewListener).also {
-                it.bindToListView(github_repository_list, this)
+            this.listAdapter = GithubRepositoryAdapter().also {
+                it.bindToListView(github_repository_list, this) { currentPage, _ ->
+                    presenter?.onLoadMore(currentPage)
+                }
             }
         }
 
