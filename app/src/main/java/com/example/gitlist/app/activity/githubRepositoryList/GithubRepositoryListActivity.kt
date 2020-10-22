@@ -52,7 +52,9 @@ class GithubRepositoryListActivity : AppCompatActivity(), GithubRepositoryListMV
     override var loading: Boolean
         get() = swipe_layout_github_repository?.isRefreshing == true
         set(value) {
-            swipe_layout_github_repository?.isRefreshing = value
+            runOnUiThread {
+                swipe_layout_github_repository?.isRefreshing = value
+            }
         }
 
     private lateinit var listAdapter: GithubRepositoryAdapter
